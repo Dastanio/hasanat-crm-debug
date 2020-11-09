@@ -16,14 +16,15 @@ class ListForm(ModelForm):
 class TaskForm(ModelForm):
 	class Meta:
 		model = Task
-		fields = ('lists','task_name', 'assign', 'dead_line', 'attachments', 'status', 'description', 'change_date', 'end_date', 'created_by')
-
+		fields = ['lists','task_name', 'assign', 'dead_line', 'attachments', 'status', 'description', 'change_date', 'end_date', 'created_by']
 		widgets = {
 			'lists':HiddenInput(),
 			'dead_line': DateInput(attrs={'type': 'date'}),
 			'change_date':DateInput(attrs={'type': 'date'}),
 			'end_date': DateInput(attrs={'type': 'date'}),
 		}
+		
+
 class SubTaskForm(ModelForm):
 	class Meta:
 		model = SubTask

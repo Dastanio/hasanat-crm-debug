@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
-{% load static %} 
+{% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Main page{% endblock %} 
 {% block content %} 
 
@@ -50,7 +51,7 @@
       </div>
       <div class="modal-body">
             <form method='post' action="{%url 'main'%}">
-                {%csrf_token%} {{form_list.as_p}}
+                {%csrf_token%} {{form_list|crispy}}
             
 
       </div>

@@ -59,13 +59,6 @@ def subtask(request, task_id):
 	form_list = ListForm()
 	form_space = SpaceForm()
 
-	form = TaskForm(instance = task) #  instancе это и есть метод редактирование но оно не работает  я знаю из за чего . Ты думаю поймешь из за initial 
-
-	forms = TaskForm(request.POST,instance = task)
-	if form.is_valid():
-		upd_task = form.save()
-		return redirect(reverse('subtask_url', args = (task.id,)))
-
 
 	if request.method == "POST":
 		subtask_form = SubTaskForm(request.POST)
@@ -83,9 +76,28 @@ def subtask(request, task_id):
 		'space':space, 
 		'form_list': form_list, 
 		'form_space': form_space,
-		'form':form,
-	}
+		}
 	return render(request, 'main/subtask.html', context = context)
+
+def TaskDetail(request, task_id, list_id):
+	task = get_object_or_404(Task, id=task_id)
+	lists = get_object_or_404(List, id= list_id)
+	space = Space.objects.filter(assign=request.user.id)
+	form_list = ListForm()
+	form_upd = TaskForm(instance = task, initial = {'lists' : lists}) 
+	form_space = SpaceForm()
+
+	forms = TaskForm(request.POST, instance = task)
+	if forms.is_valid():
+		upd_task = forms.save()
+		return redirect(reverse('task_detail_url', args = (lists.id,task.id)))
+
+	if request.method == 'POST':
+		task.delete()
+		return redirect(reverse('task_url', args = (lists.id,)))
+
+
+	return render(request, 'main/task_detail.html', context = {"task_detail": task, 'form_upd': form_upd, 'lists': lists, 'space': space, 'form_list': form_list, 'form_space': form_space})
 
 def SpaceDetail(request, space_id):
 	space = get_object_or_404(Space, id=space_id)
