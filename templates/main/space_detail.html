@@ -2,6 +2,7 @@
 {% load static %} 
 {% block title %}HELLO{% endblock %} 
 {% block content %} 
+
 	{{space.name}}
 	<form method="post" action="{% url 'space_detail_url' space.id %}">
 		{% csrf_token %}

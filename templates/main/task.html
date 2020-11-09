@@ -3,9 +3,7 @@
 {% block title %}HELLO{% endblock %} 
 {% block main %}
 
-<div class="scroll">
-    sss
-</div>
+{% if user.is_authenticated %}
 
 <div class="all">
 
@@ -51,34 +49,48 @@
             </div>
             <h6><a href="{% url 'subtask_url' x.id %}">Посмотреть под таск</a></h6>
         </div>
-        {% endfor %}
+        {% endfor %}<br>
 
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#TaskModal">
+ + Add Task
+</button>
 
-
-        <div id="create_task" title="Create Task">
+<!-- Modal -->
+<div class="modal fade" id="TaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalList" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalList">Create Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
             <form method="post" action="{% url 'task_url' lists.id %}">
-                {% csrf_token %}
-                {{task_form.as_p}}
-                <input type="submit" value="Create task">
-            </form>
+            {% csrf_token %}
+            {{task_form.as_p}}
 
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div><input type='button' value='+ task' class='add_task'></div>
-        <script>
-            var dialog3 = $("#create_task").dialog({
-                autoOpen: false
-            });
-            $("input[class=add_task]").click(function() {
-                dialog3.dialog("open");
-            });
-        </script>
+
 
 
     </div>
 </div>
 
+{% else %}
+    <a href="{% url 'accounts:login' %}" class="reg">Войти</a> 
+{% endif %}
 
 
 {%endblock%}

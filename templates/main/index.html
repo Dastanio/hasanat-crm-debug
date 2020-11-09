@@ -3,6 +3,10 @@
 {% block title %}Main page{% endblock %} 
 {% block content %} 
 
+{% if user.is_authenticated %}
+
+    
+
 <div class="left">
 <br> {% for i in space %}
 
@@ -157,5 +161,10 @@
 })
 </script>
 -->
+
+{% else %}
+    <a href="{% url 'accounts:login' %}" class="reg">Войти</a> 
+{% endif %}
+
 {% endblock %} 
 
