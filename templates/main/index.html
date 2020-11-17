@@ -50,8 +50,10 @@
         </button>
       </div>
       <div class="modal-body">
+       
             <form method='post' action="{%url 'main'%}">
                 {%csrf_token%} {{form_list|crispy}}
+
             
 
       </div>

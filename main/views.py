@@ -28,7 +28,26 @@ def main(request):
 		form_space = SpaceForm()
 	return render(request, 'main/index.html', context = {'space':space, 'form_list': form_list, 'form_space': form_space})
 
-    			
+
+def status(request, task_id):
+	lists = List.objects.all()
+	space = Space.objects.filter(assign=request.user.id)
+	bbs = Task.objects.filter(status=task_id, assign=request.user.id)
+	form_list = ListForm()
+	form_space = SpaceForm()
+	status = Status.objects.all()
+	current_status = Status.objects.get(id = task_id)
+	context = {
+		'status': status,
+		'bbs':bbs,
+		'current_status':current_status,
+		'space':space, 
+		'lists': lists, 
+		'form_list': form_list,
+		'form_space': form_space,
+	}
+	return render(request, 'main/status.html', context)
+
 
 def task(request, list_id):
 	space = Space.objects.filter(assign=request.user.id)
@@ -36,6 +55,8 @@ def task(request, list_id):
 
 	form_list = ListForm()
 	form_space = SpaceForm()
+
+	status = Status.objects.all()
 
 
 	if request.method == "POST":
@@ -49,7 +70,7 @@ def task(request, list_id):
 
 	
 
-	return render(request, 'main/task.html', context = {'lists':lists, 'space':space, 'form_list': form_list, 'form_space': form_space, 'task_form': task_form})
+	return render(request, 'main/task.html', context = {'status':status,'lists':lists, 'space':space, 'form_list': form_list, 'form_space': form_space, 'task_form': task_form})
 
 
 

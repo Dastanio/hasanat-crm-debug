@@ -4,6 +4,8 @@
 {% block title %}HELLO{% endblock %} 
 {% block main %}
 
+<a href="{% url 'status_url' 1 %}">Перейти в статусы</a>
+
 {% if user.is_authenticated %}
 
 <div class="all">
