@@ -96,12 +96,7 @@
       <div class="modal-body">
         <form action="{%url 'main'%}" method='POST' id='form_create'>{%csrf_token%}
 
-            <p>{{form_space.name}}</p>
-            <p>{{form_space.photo}}</p>
-            <p>{{form_space.assign}}</p>
-            <p>{{form_space.status}} </p>
-            <p><input type="text" name="created_by" maxlength="150" required="" id="id_created_by" hidden="" value="{{user.username}}"></p>
-            <p><input type="color" id="id_color" class="form-control colorfield_field jscolor" name="color" value="#FF0000" placeholder="#FF0000" data-jscolor="{hash:true,width:225,height:150,required:true}" required=""></p>
+      {{form_space.as_p}}
         
       </div>
       <div class="modal-footer">
@@ -117,6 +112,8 @@
 
 
 </div>
+
+
     {% block main %} {% endblock %}
 
 <!--

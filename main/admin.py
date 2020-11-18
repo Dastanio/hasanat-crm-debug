@@ -5,6 +5,7 @@ from .models import *
 
 admin.site.register(Status)
 admin.site.register(Action)
+admin.site.register(TaskComment)
 
 class CustomUserInline(admin.StackedInline):
     model = CustomUser

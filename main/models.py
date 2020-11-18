@@ -63,11 +63,11 @@ class Task(models.Model):
     dead_line = models.DateField()
     attachments = models.FileField(upload_to='files/',blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null = True)
     start_date = models.DateTimeField(auto_now_add=True, blank=True)
-    change_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
-    created_by = models.CharField(max_length=150)
+    change_date = models.DateTimeField(blank=True, null = True)
+    end_date = models.DateTimeField(blank=True, null = True)
+    created_by = models.CharField(max_length=150, null = True)
 
     def __str__(self):
         return(self.task_name)
@@ -81,16 +81,16 @@ class SubTask(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     start_date = models.DateTimeField(auto_now_add=True, blank=True)
-    change_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
-    created_by = models.CharField(max_length=150)
+    change_date = models.DateTimeField(blank=True, null = True)
+    end_date = models.DateTimeField(blank=True, null = True)
+    created_by = models.CharField(max_length=150, null = True)
 
 
     def __str__(self):
         return(self.task_name)
 
 class TaskComment(models.Model):
-    task = models.ForeignKey(Task,on_delete=models.CASCADE)
+    task = models.ForeignKey(Task,on_delete=models.CASCADE, related_name = 'task_comment')
     name = models.CharField(max_length=100)
     comment  = models.TextField(blank=True)
 

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, DateInput, TextInput,HiddenInput
+from django.forms import ModelForm, DateInput, TextInput,HiddenInput,Textarea
 from .models import *
 from django.contrib.auth.models import User
 
@@ -6,6 +6,10 @@ class SpaceForm(ModelForm):
 	class Meta:
 		model = Space
 		fields = ('name', 'photo', 'assign', 'status', 'created_by', 'color')
+		widgets = {
+			'color': TextInput(attrs={'type':'color'})
+		}
+		
 
 
 class ListForm(ModelForm):
@@ -19,9 +23,9 @@ class TaskForm(ModelForm):
 		fields = ['lists','task_name', 'assign', 'dead_line', 'attachments', 'status', 'description', 'change_date', 'end_date', 'created_by']
 		widgets = {
 			'lists':HiddenInput(),
-			'dead_line': DateInput(attrs={'type': 'date'}),
-			'change_date':DateInput(attrs={'type': 'date'}),
-			'end_date': DateInput(attrs={'type': 'date'}),
+			'dead_line': DateInput(attrs={'type': 'datetime-local'}),
+			'change_date':DateInput(attrs={'type': 'datetime-local'}),
+			'end_date': DateInput(attrs={'type': 'datetime-local'}),
 		}
 		
 
@@ -36,3 +40,13 @@ class SubTaskForm(ModelForm):
 			'change_date':DateInput(attrs={'type': 'date'}),
 			'end_date': DateInput(attrs={'type': 'date'}),
 		}
+
+class TaskCommentForm(ModelForm):
+	class Meta:
+		model = TaskComment
+		fields = ('task','name', 'comment')
+		widgets = {
+			'task': HiddenInput(),
+			'comment': Textarea(attrs = {'class': 'form-control'})
+		}
+

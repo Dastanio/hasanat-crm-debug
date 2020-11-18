@@ -88,8 +88,36 @@
 		<button class="btn btn-danger">Delete</button>
 	</form>
 
+
+
+<input type="datetime-local" name="">
+
+{% if latest_comments_list %}
+    {% for c in latest_comments_list %}
+    <p>
+        <hr>
+        <div class=""><span class="badge badge-success">{{c.name}}</span></div>
+        <div class=""><p>{{c.comment}}</p></div>
+
+    </p>
+    {% endfor %}
+
+{% else %}
+<div class="ml-3">Комментарий не найдены! Станьте первым.</div>
+{% endif %}
+
+
+
+<form method="post" action="{% url 'task_detail_url' lists.id task_detail.id %}">
+  {% csrf_token %}
+{{form_task_comment|crispy}}
+        <button class="btn btn-primary">Add Comment</button>
+</form>
+
 {% else %}
     <a href="{% url 'accounts:login' %}" class="reg">Войти</a> 
 {% endif %}
+
+
 
 {%endblock%}

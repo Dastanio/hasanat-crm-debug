@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .forms import *
 from django.views.generic import View
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def main(request):
 	space = Space.objects.filter(assign=request.user.id)
@@ -108,6 +109,15 @@ def TaskDetail(request, task_id, list_id):
 	form_upd = TaskForm(instance = task, initial = {'lists' : lists}) 
 	form_space = SpaceForm()
 
+	latest_comments_list = task.task_comment.order_by('-id')[:10]
+
+	task_comment_form = TaskCommentForm(request.POST)
+	if task_comment_form.is_valid():
+		task_comment_save = task_comment_form.save()
+		return HttpResponseRedirect(reverse('task_detail_url', args = (lists.id,task.id)))
+
+	#latest_comments_list = task.comment_set.order_by('-id')[:10]
+
 	forms = TaskForm(request.POST, instance = task)
 	if forms.is_valid():
 		upd_task = forms.save()
@@ -117,8 +127,22 @@ def TaskDetail(request, task_id, list_id):
 		task.delete()
 		return redirect(reverse('task_url', args = (lists.id,)))
 
+	form_task_comment = TaskCommentForm(initial = {'task': task})
 
-	return render(request, 'main/task_detail.html', context = {"task_detail": task, 'form_upd': form_upd, 'lists': lists, 'space': space, 'form_list': form_list, 'form_space': form_space})
+	context = {
+		'form_task_comment': form_task_comment,
+		"task_detail": task, 
+		'form_upd': form_upd, 
+		'lists': lists, 
+		'space': space, 
+		'form_list': form_list, 
+		'form_space': form_space, 
+		'latest_comments_list': latest_comments_list
+	}
+		
+
+
+	return render(request, 'main/task_detail.html', context = context)
 
 def SpaceDetail(request, space_id):
 	space = get_object_or_404(Space, id=space_id)
@@ -129,6 +153,8 @@ def SpaceDetail(request, space_id):
 		return redirect(reverse('main'))
 
 	return render(request, 'main/space_detail.html', context = {'space': space, 'form_list': form_list, 'form_space': form_space})
+
+
 
 
 if __name__ == '__main__':

@@ -7,5 +7,6 @@ urlpatterns = [
 	path('task/<int:list_id>/', views.task, name = 'task_url'),
 	path('subtask/<int:task_id>/', views.subtask, name = 'subtask_url'),
 	path('task_detail/<int:list_id>/<int:task_id>/', views.TaskDetail, name = 'task_detail_url'),
+
 	path('status/<int:task_id>/', views.status, name = 'status_url')
 ] 
